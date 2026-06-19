@@ -58,13 +58,16 @@
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+        html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; overflow-x: hidden; overscroll-behavior-x: none; }
         body {
             font-family: var(--font-ui);
             background: var(--espresso);
             color: var(--ivory);
             line-height: 1.6;
             overflow-x: hidden;
+            overscroll-behavior-x: none;
+            width: 100%;
+            position: relative;
         }
         img { display: block; max-width: 100%; }
         ::selection { background: var(--terracotta); color: var(--paper); }
@@ -844,7 +847,7 @@
             .hero-ctas .btn-secondary { width: 100%; background: var(--terracotta); color: var(--paper); border-color: var(--terracotta); }
             .work-wall { display: none !important; }
             .hero-wall-mobile { display: flex; flex-direction: column; gap: 10px; flex: 0 0 auto; margin: 18px -20px 0; overflow: hidden; }
-            .hwm-row { height: 21svh; min-height: 158px; overflow: hidden; position: relative; }
+            .hwm-row { height: 21svh; min-height: 158px; overflow: hidden; position: relative; touch-action: pan-y; }
             .hwm-track { display: flex; height: 100%; width: max-content; will-change: transform; }
             .hwm-card { flex: 0 0 auto; width: 132px; height: 100%; margin-right: 10px; border-radius: 12px; overflow: hidden; border: none; box-shadow: none; background: var(--bone); }
             .hwm-card img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
@@ -2080,10 +2083,8 @@ document.addEventListener('DOMContentLoaded',function(){
             .then(function(res) { return res.json(); })
             .then(function(data) {
                 if (data.success) {
-                    confirmBiz.textContent = biz;
-                    innerDiv.style.display = 'none';
-                    confirmDiv.style.display = 'flex';
-                    overlay.scrollTop = 0;
+                    // send to the thank-you page (its own URL) so Google Ads can count the conversion
+                    window.location.href = 'thank-you.html?biz=' + encodeURIComponent(biz);
                 } else {
                     submitBtn.disabled = false;
                     submitBtn.querySelector('span').textContent = 'Send it over';
